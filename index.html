@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>House Designer</title>
+<meta name="description" content="Plan your home, arrange furniture and explore your design in 3D.">
+<meta name="theme-color" content="#2f5bea">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main>
+  <h1>Design your whole house</h1>
+<div class="app-actions"><button id="install-app" hidden>Install app</button><button id="export-design">Download design</button><button id="import-design">Open design</button><input id="design-file" type="file" accept="application/json,.json" hidden></div>
+<p id="app-status" role="status" aria-live="polite"></p>
+  <p class="sub">Add rooms, washrooms and a garden, drag them into place, furnish them, then switch to 3D to look around the finished house.</p>
+  <div class="layout">
+    <div>
+      <div class="stage">
+        <div class="tabs"><button id="t2" aria-pressed="true">Plan</button><button id="t3" aria-pressed="false">3D view</button></div>
+        <svg id="plan" aria-label="House plan editor"></svg>
+        <div id="v3" aria-label="3D house view"></div>
+      </div>
+      <p class="area" id="area"></p>
+    </div>
+    <div class="side">
+      <section class="card">
+        <h2>Add a room</h2><div class="row" id="rooms"></div>
+        <h3>Plot size (metres)</h3>
+        <div class="row"><label>Width<input id="pw" type="number" min="8" max="40" step="1"></label><label>Length<input id="pl" type="number" min="8" max="40" step="1"></label></div>
+      </section>
+      <section class="card">
+        <h2>Selected</h2>
+        <div class="row"><button id="rot" disabled>Rotate</button><button id="dup" disabled>Copy</button><button id="del" disabled>Delete</button></div>
+        <h3>Furniture colour</h3><div class="row" id="cols"></div>
+        <h3>Room type and size</h3>
+        <div class="row"><label>Type<select id="rt" disabled></select></label></div>
+        <div class="row" style="margin-top:8px"><label>Width<input id="rw" type="number" min="1.5" step="0.5" disabled></label><label>Length<input id="rl" type="number" min="1.5" step="0.5" disabled></label></div>
+        <h3>Room floor</h3><div class="row" id="floors"></div>
+      </section>
+      <section class="card">
+        <h2>Add furniture</h2><div id="furn"></div>
+        <h3>Wall colour (3D)</h3><div class="row" id="walls"></div>
+        <div class="row" style="margin-top:14px"><button id="smp">Sample house</button><button id="clr">Clear all</button></div>
+      </section>
+    </div>
+  </div>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="app.js" defer></script>
+<script src="pwa.js" defer></script>
+</body>
+</html>
