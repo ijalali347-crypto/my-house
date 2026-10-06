@@ -1,0 +1,10 @@
+const assert=require('node:assert/strict');
+const G=require('../geometry.js');
+for(const type of ['rectangle','lshape','trapezoid','rounded'])assert(G.valid(G.preset(type,18,14),18,14),type);
+assert.equal(G.area(G.points(G.preset('rectangle',18,14))),252);
+assert.equal(G.contains(G.points(G.preset('lshape',10,10)),{x:9,y:1}),false);
+assert.equal(G.contains(G.points(G.preset('lshape',10,10)),{x:3,y:1}),true);
+assert.equal(G.valid([{x:0,y:0},{x:8,y:8},{x:0,y:8},{x:8,y:0}],10,10),false);
+assert.equal(G.valid([{x:0,y:0},{x:12,y:0},{x:0,y:10}],10,10),false);
+assert.equal(G.area(G.clipRect([{x:0,y:0},{x:10,y:0},{x:10,y:10},{x:0,y:10}],{x:2,y:2,w:3,l:4})),12);
+console.log('Plot presets, unequal sides, concave boundary, curve sampling, crossing rejection and floor clipping passed.');

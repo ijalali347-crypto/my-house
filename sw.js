@@ -1,7 +1,7 @@
-const CACHE='house-designer-v1';
-const CORE=['./','./index.html','./styles.css','./app.js','./pwa.js','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png'];
+const CACHE='house-designer-v3';
+const CORE=['./','./index.html','./styles.css?v=3','./app.js?v=3','./geometry.js?v=3','./designer.js?v=3','./pwa.js?v=3','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png'];
 const CDNS=new Set(['https://cdnjs.cloudflare.com','https://cdn.jsdelivr.net','https://fonts.googleapis.com','https://fonts.gstatic.com']);
-self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE))));
+self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE).then(()=>self.skipWaiting()))));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key.startsWith('house-designer-') && key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',event=>{
   if(event.request.method!=='GET') return;

@@ -37,6 +37,10 @@ const RT={
   hall:{n:'Hall',w:2.5,l:2.5,f:'#bdc3c2',k:''},
   garden:{n:'Garden',w:6,l:4,f:'#6fa05a',k:'grass'}
 };
+RT.office={n:'Office',w:5,l:4,f:'#bdc3c2',k:''};
+RT.meeting={n:'Meeting room',w:5,l:4,f:'#d9b98a',k:'wood'};
+RT.reception={n:'Reception',w:4,l:3,f:'#f1f3f2',k:'tile'};
+T.stairs={g:'Building',w:1.2,h:3,c:'#a7a095',n:'Stairs'};
 const ROUND={plant:1,lamp:1,tree:1,bush:1},BK={sofa:1,sofabed:1,armchair:1,bed:1,chair:1};
 const FLOORS=[['Oak','#d9b98a','wood'],['Walnut','#8a5f3e','wood'],['Concrete','#bdc3c2',''],['White tile','#f1f3f2','tile'],['Dark tile','#5d6670','tile'],['Lawn','#6fa05a','grass']];
 const WALLS=[['White','#f2efe8'],['Sage','#b4c7b8'],['Soft blue','#b3c4da'],['Clay','#d9ab98']];
@@ -194,8 +198,8 @@ Object.keys(RT).forEach(t=>{
 });
 function swatches(box,list,fn){
   list.forEach(x=>{
-    const b=document.createElement('button'),c=x[1]||x;
-    b.className='sw';b.style.background=c;b.title=x[0]||'Colour';b.setAttribute('aria-label',x[0]||'Colour');
+    const b=document.createElement('button'),c=Array.isArray(x)?x[1]:x;
+    b.className='sw';b.style.background=c;b.title=Array.isArray(x)?x[0]:'Furniture colour '+c;b.setAttribute('aria-label',b.title);
     b.dataset.c=c;b.onclick=()=>fn(x);$(box).appendChild(b);
   });
 }
@@ -237,6 +241,9 @@ function model(t,w,d,c){
     h.position.set(x,0,z);h.rotation.y=ry;g.add(h);
   };
   switch(t){
+    case 'stairs':
+      for(let j=0;j<12;j++){const ht=(j+1)*(typeof floorHeight==='number'?floorHeight:3)/12;b([w,ht,d/12],c,[0,ht/2,-d/2+(j+.5)*d/12]);}
+      break;
     case 'sofa':case 'sofabed':case 'armchair':{
       const n=t==='armchair'?1:3,bed=t==='sofabed',aw=.18,cw=(w-aw*2)/n,sd=bed?d*.42:d-.3;
       b([w,.3,d],c,[0,.27,0],.95);b([w,.65,.2],c,[0,.45,-d/2+.1],.95);

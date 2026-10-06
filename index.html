@@ -13,24 +13,32 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v=3">
 </head>
 <body>
 <main>
-  <h1>Design your whole house</h1>
+  <h1>Design your home or office</h1>
 <div class="app-actions"><button id="install-app" hidden>Install app</button><button id="export-design">Download design</button><button id="import-design">Open design</button><input id="design-file" type="file" accept="application/json,.json" hidden></div>
 <p id="app-status" role="status" aria-live="polite"></p>
-  <p class="sub">Add rooms, washrooms and a garden, drag them into place, furnish them, then switch to 3D to look around the finished house.</p>
-  <div class="layout">
+  <p class="sub">Start from a home, office or blank project. Shape your plot, draw walls, furnish each floor and explore up to five floors in 3D.</p>
+  <section class="card project-bar">
+<h2>Project</h2><div class="row"><label>Starting layout<select id="project-type"><option value="home">Home</option><option value="office">Office</option><option value="blank">Blank project</option></select></label><button id="new-project">Start new project</button><button id="undo-design" disabled>Undo</button><button id="redo-design" disabled>Redo</button></div>
+</section>
+<div class="layout">
     <div>
       <div class="stage">
         <div class="tabs"><button id="t2" aria-pressed="true">Plan</button><button id="t3" aria-pressed="false">3D view</button></div>
-        <svg id="plan" aria-label="House plan editor"></svg>
+        <div class="row tools" role="toolbar" aria-label="Drawing tools"><button id="tool-select" aria-pressed="true">Select / move</button><button id="tool-wall" aria-pressed="false">Draw wall</button><button id="tool-curve" aria-pressed="false">Curved wall</button><button id="tool-plot" aria-pressed="false">Edit plot</button><button id="tool-erase" aria-pressed="false">Remove</button></div>
+<p id="tool-help" class="hint" role="status">Select a room or furniture to edit it.</p>
+<svg id="plan" aria-label="House plan editor"></svg>
         <div id="v3" aria-label="3D house view"></div>
       </div>
       <p class="area" id="area"></p>
     </div>
     <div class="side">
+<section class="card"><h2>Floors</h2><div class="row"><label>Editing floor<select id="floor-select"></select></label><label>Floor height (m)<input id="floor-height" type="number" min="2.4" max="5" step="0.1" value="3"></label></div><div class="row tools"><button id="add-floor">+ Blank floor</button><button id="copy-floor">Copy floor above</button><button id="remove-floor">Remove floor</button></div><label>3D display<select id="floor-view"><option value="active">Selected floor</option><option value="all">Whole building</option><option value="exploded">Separated floors</option></select></label><button id="fit-view" class="tools">Fit 3D view</button></section>
+<section class="card"><h2>Plot boundary</h2><label>Shape<select id="plot-shape"><option value="rectangle">Rectangle</option><option value="lshape">L-shaped corner</option><option value="trapezoid">Unequal sides</option><option value="rounded">Rounded corner</option><option value="custom">Custom boundary</option></select></label><p class="hint">Edit plot: drag a numbered corner or curve handle. Tap an edge to add a corner. Measurements are in metres.</p><div id="plot-point-editor" hidden><h3>Selected corner</h3><div class="row"><label>Corner X<input id="point-x" type="number" min="0" step="0.25"></label><label>Corner Y<input id="point-y" type="number" min="0" step="0.25"></label></div><label>Outgoing edge<select id="point-edge"><option value="line">Straight</option><option value="curve">Curved</option></select></label><div class="row" id="curve-point-fields" hidden><label>Curve X<input id="point-cx" type="number" min="0" step="0.25"></label><label>Curve Y<input id="point-cy" type="number" min="0" step="0.25"></label></div><button id="remove-point">Remove corner</button></div></section>
+<section class="card"><h2>Wall settings</h2><div class="row"><label>Height (m)<input id="wall-height" type="number" min="0.3" max="5" step="0.1" value="2.6"></label><label>Thickness (m)<input id="wall-thickness" type="number" min="0.05" max="0.6" step="0.05" value="0.15"></label></div><label>Wall colour<input id="wall-colour" type="color" value="#f2efe8"></label><div id="wall-editor" hidden><h3>Selected wall</h3><div class="row"><label>Start X<input id="wall-ax" type="number" step="0.25"></label><label>Start Y<input id="wall-ay" type="number" step="0.25"></label></div><div class="row"><label>End X<input id="wall-bx" type="number" step="0.25"></label><label>End Y<input id="wall-by" type="number" step="0.25"></label></div><div id="wall-curve-fields" class="row" hidden><label>Bend X<input id="wall-cx" type="number" step="0.25"></label><label>Bend Y<input id="wall-cy" type="number" step="0.25"></label></div></div><p class="hint">Straight wall: tap start and end. Curved wall: tap start, end, then bend. Escape cancels drawing. Remove deletes the element you tap.</p></section>
       <section class="card">
         <h2>Add a room</h2><div class="row" id="rooms"></div>
         <h3>Plot size (metres)</h3>
@@ -39,7 +47,7 @@
       <section class="card">
         <h2>Selected</h2>
         <div class="row"><button id="rot" disabled>Rotate</button><button id="dup" disabled>Copy</button><button id="del" disabled>Delete</button></div>
-        <h3>Furniture colour</h3><div class="row" id="cols"></div>
+        <div id="room-wall-controls" hidden><h3>Room walls</h3><div class="row checks"><label><input id="room-north" type="checkbox" checked>Top</label><label><input id="room-east" type="checkbox" checked>Right</label><label><input id="room-south" type="checkbox" checked>Bottom</label><label><input id="room-west" type="checkbox" checked>Left</label></div></div><h3>Furniture colour</h3><div class="row" id="cols"></div>
         <h3>Room type and size</h3>
         <div class="row"><label>Type<select id="rt" disabled></select></label></div>
         <div class="row" style="margin-top:8px"><label>Width<input id="rw" type="number" min="1.5" step="0.5" disabled></label><label>Length<input id="rl" type="number" min="1.5" step="0.5" disabled></label></div>
@@ -48,14 +56,16 @@
       <section class="card">
         <h2>Add furniture</h2><div id="furn"></div>
         <h3>Wall colour (3D)</h3><div class="row" id="walls"></div>
-        <div class="row" style="margin-top:14px"><button id="smp">Sample house</button><button id="clr">Clear all</button></div>
+        <div class="row" style="margin-top:14px"><button id="smp">Sample house</button><button id="clr">Clear floor</button></div>
       </section>
     </div>
   </div>
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="app.js" defer></script>
-<script src="pwa.js" defer></script>
+<script src="app.js?v=3" defer></script>
+<script src="geometry.js?v=3" defer></script>
+<script src="designer.js?v=3" defer></script>
+<script src="pwa.js?v=3" defer></script>
 </body>
 </html>

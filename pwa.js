@@ -17,7 +17,7 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
 window.addEventListener('offline', () => notify('You are offline. The 2D planner is available after your first visit; 3D needs its libraries to be cached.'));
 window.addEventListener('online', () => notify('You are back online.'));
 document.getElementById('export-design').onclick = () => {
-  const blob = new Blob([JSON.stringify({version:1,PL,WALL,rooms,items},null,2)], {type:'application/json'});
+  const blob = new Blob([JSON.stringify(projectData(),null,2)], {type:'application/json'});
   const url = URL.createObjectURL(blob), link = document.createElement('a');
   link.href=url; link.download='house-design.json'; link.click();
   setTimeout(() => URL.revokeObjectURL(url),1000); notify('Design downloaded.');
@@ -37,15 +37,17 @@ document.getElementById('design-file').onchange=async event=>{
   try {
     if(file.size>2000000) throw new Error('File too large');
     const data=JSON.parse(await file.text());
-    if (!validDesign(data)) throw new Error('Invalid design');
+    if (!(data.version===2?validateProject(data):validDesign(data))) throw new Error('Invalid design');
     if (!confirm('Replace your current layout with this design? Download your current design first if you want to keep it.')) return;
-    PL={w:data.PL.w,l:data.PL.l}; WALL=data.WALL;
-    rooms=data.rooms.map(r=>({id:r.id,t:r.t,x:r.x,y:r.y,w:r.w,l:r.l,floor:r.floor,fk:r.fk}));
-    items=data.items.map(i=>({id:i.id,t:i.t,x:i.x,y:i.y,r:i.r,col:i.col}));
-    nid=Math.max(0,...rooms.map(r=>r.id),...items.map(i=>i.id))+1; sel=null; mode=null;
-    $('pw').value=PL.w; $('pl').value=PL.l;
-    document.querySelectorAll('#walls .sw').forEach(b=>b.classList.toggle('on',b.dataset.c===WALL));
+    if(data.version===2)loadProject(data);
+    else loadProject({version:2,PL:data.PL,WALL:data.WALL,plot:PlotGeometry.preset('rectangle',data.PL.w,data.PL.l),floors:[{rooms:data.rooms,items:data.items,walls:[]}],activeFloor:0,floorHeight:3,projectType:'home'});
     save(); draw(); notify('Design opened.');
   } catch { notify('Could not open this file. Choose a valid House Designer JSON export.'); }
   finally { event.target.value=''; }
 };
+
+let refreshingForUpdate=false;
+const previouslyControlled=!!navigator.serviceWorker?.controller;
+if('serviceWorker' in navigator)navigator.serviceWorker.addEventListener('controllerchange',()=>{
+  if(previouslyControlled&&!refreshingForUpdate){refreshingForUpdate=true;location.reload();}
+});

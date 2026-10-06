@@ -29,3 +29,16 @@ After the first online visit and service worker activation, the 2D editor can re
 index.html, styles.css, app.js preserve the supplied editor. pwa.js adds install and backup controls. sw.js caches the application. manifest.webmanifest and icons define the installed app. The GitHub Actions workflow validates syntax and publishes only website assets.
 
 The layout is conceptual: overlapping room areas are counted separately, and doors/windows are decorative in 3D rather than structural wall cutouts. Do not treat it as engineering or permit-ready drawings.
+
+## Multi-floor designer
+- Choose Home, Office or Blank project, then Start new project. Replacements ask first and can be undone.
+- Edit up to five independent floors; copy the selected floor to a new level or add a blank one. Floor height is adjustable.
+- 3D display offers selected floor, whole building and separated floors. Fit 3D view recentres the camera.
+- Choose Rectangle, L-shaped corner, Unequal sides or Rounded corner. Edit plot lets you drag corners, edit exact coordinates, add corners by tapping edges, and curve outgoing edges with a bend handle. Boundary crossings are rejected.
+- Draw wall uses two taps. Curved wall uses three taps: start, end and bend. Select a custom wall to edit its endpoints, height, thickness and colour.
+- Remove deletes furniture, custom walls, room edges or rooms. Individual room edges can also be toggled in Selected. Undo/Redo keeps the latest 35 states.
+- Stairs are in the Building furniture group, rendered at the chosen floor height. They are conceptual models; slab openings and structural connections are not automatically engineered.
+- JSON backups now preserve all floors, wall properties and boundary curves. Earlier single-floor backups remain supported. Existing saved browser layouts migrate to a ground-floor project.
+- Plot changes may leave existing elements crossing the new boundary. A warning identifies this; move or resize them. 2D content and 3D room floors are clipped to the plot. Furniture whose centres fall outside the boundary is omitted from 3D.
+
+Walls and slab geometry are conceptual. Doors and windows remain decorative models rather than automatic holes in custom walls. The editor does not calculate structural loads or produce construction drawings.
