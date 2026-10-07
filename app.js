@@ -41,6 +41,13 @@ RT.office={n:'Office',w:5,l:4,f:'#bdc3c2',k:''};
 RT.meeting={n:'Meeting room',w:5,l:4,f:'#d9b98a',k:'wood'};
 RT.reception={n:'Reception',w:4,l:3,f:'#f1f3f2',k:'tile'};
 T.stairs={g:'Building',w:1.2,h:3,c:'#a7a095',n:'Stairs'};
+Object.assign(T,{
+ bedside:{g:'Interior details',w:.5,h:.45,c:'#8b6445',n:'Bedside table'},
+ cabinet:{g:'Interior details',w:1.6,h:.45,c:'#8b6445',n:'Sideboard'},
+ ottoman:{g:'Interior details',w:.75,h:.6,c:'#b8a58f',n:'Ottoman'},
+ curtains:{g:'Interior details',w:1.8,h:.2,c:'#ddd0bb',n:'Curtains'},
+ art:{g:'Interior details',w:1,h:.1,c:'#805d3e',n:'Framed art'}
+});
 const ROUND={plant:1,lamp:1,tree:1,bush:1},BK={sofa:1,sofabed:1,armchair:1,bed:1,chair:1};
 const FLOORS=[['Oak','#d9b98a','wood'],['Walnut','#8a5f3e','wood'],['Concrete','#bdc3c2',''],['White tile','#f1f3f2','tile'],['Dark tile','#5d6670','tile'],['Lawn','#6fa05a','grass']];
 const WALLS=[['White','#f2efe8'],['Sage','#b4c7b8'],['Soft blue','#b3c4da'],['Clay','#d9ab98']];

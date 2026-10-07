@@ -26,16 +26,18 @@ jobs:
           node --check app.js
           node --check geometry.js
           node --check designer.js
+          node --check interior.js
           node --check pwa.js
           node --check sw.js
           node tests/geometry.cjs
           node tests/project.cjs
+          node tests/interior.cjs
       - uses: actions/configure-pages@v5
       - name: Assemble website
         run: |
           mkdir _site
-          cp index.html styles.css app.js geometry.js designer.js pwa.js sw.js manifest.webmanifest _site/
-          cp -r icons _site/
+          cp index.html styles.css app.js geometry.js designer.js interior.js pwa.js sw.js manifest.webmanifest _site/
+          cp -r icons assets _site/
       - uses: actions/upload-pages-artifact@v4
         with:
           path: _site

@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=3">
+<link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body>
 <main>
@@ -31,11 +31,16 @@
         <div class="row tools" role="toolbar" aria-label="Drawing tools"><button id="tool-select" aria-pressed="true">Select / move</button><button id="tool-wall" aria-pressed="false">Draw wall</button><button id="tool-curve" aria-pressed="false">Curved wall</button><button id="tool-plot" aria-pressed="false">Edit plot</button><button id="tool-erase" aria-pressed="false">Remove</button></div>
 <p id="tool-help" class="hint" role="status">Select a room or furniture to edit it.</p>
 <svg id="plan" aria-label="House plan editor"></svg>
-        <div id="v3" aria-label="3D house view"></div>
+        <div id="interior-view-controls" hidden>
+<div class="row"><label>Interior room<select id="interior-room"><option value="">Choose a room</option></select></label><button id="walk-toggle">Walk inside</button><button id="full-view">Full screen</button><button id="save-interior-image">Download view</button></div>
+<p id="interior-help" class="hint">Orbit to see the furnished home, or walk inside at eye level. Download view saves your actual design as a PNG.</p>
+<div id="walk-controls" class="row" hidden aria-label="Walkthrough movement"><button data-walk="forward" aria-label="Move forward">Forward</button><button data-walk="left" aria-label="Move left">Left</button><button data-walk="back" aria-label="Move backward">Back</button><button data-walk="right" aria-label="Move right">Right</button></div>
+</div><div id="v3" aria-label="3D house view"></div>
       </div>
       <p class="area" id="area"></p>
     </div>
     <div class="side">
+<section class="card interior-card"><h2>Interior design</h2><img src="assets/interior-inspiration.jpg" alt="AI-generated inspiration: warm living room with cream upholstery and walnut furniture" loading="lazy"><p class="hint">AI-generated style inspiration. Your layout is shown in the interactive 3D view.</p><label>Finish palette<select id="interior-style"><option value="warm">Warm natural</option><option value="modern">Modern calm</option><option value="earthy">Earthy greens</option></select></label><button id="apply-interior-style">Apply finishes</button><p class="hint">Applies room floors and furniture on this floor, plus the building wall colour. Add curtains, framed art, sideboards and bedside tables below.</p></section>
 <section class="card"><h2>Floors</h2><div class="row"><label>Editing floor<select id="floor-select"></select></label><label>Floor height (m)<input id="floor-height" type="number" min="2.4" max="5" step="0.1" value="3"></label></div><div class="row tools"><button id="add-floor">+ Blank floor</button><button id="copy-floor">Copy floor above</button><button id="remove-floor">Remove floor</button></div><label>3D display<select id="floor-view"><option value="active">Selected floor</option><option value="all">Whole building</option><option value="exploded">Separated floors</option></select></label><button id="fit-view" class="tools">Fit 3D view</button></section>
 <section class="card"><h2>Plot boundary</h2><label>Shape<select id="plot-shape"><option value="rectangle">Rectangle</option><option value="lshape">L-shaped corner</option><option value="trapezoid">Unequal sides</option><option value="rounded">Rounded corner</option><option value="custom">Custom boundary</option></select></label><p class="hint">Edit plot: drag a numbered corner or curve handle. Tap an edge to add a corner. Measurements are in metres.</p><div id="plot-point-editor" hidden><h3>Selected corner</h3><div class="row"><label>Corner X<input id="point-x" type="number" min="0" step="0.25"></label><label>Corner Y<input id="point-y" type="number" min="0" step="0.25"></label></div><label>Outgoing edge<select id="point-edge"><option value="line">Straight</option><option value="curve">Curved</option></select></label><div class="row" id="curve-point-fields" hidden><label>Curve X<input id="point-cx" type="number" min="0" step="0.25"></label><label>Curve Y<input id="point-cy" type="number" min="0" step="0.25"></label></div><button id="remove-point">Remove corner</button></div></section>
 <section class="card"><h2>Wall settings</h2><div class="row"><label>Height (m)<input id="wall-height" type="number" min="0.3" max="5" step="0.1" value="2.6"></label><label>Thickness (m)<input id="wall-thickness" type="number" min="0.05" max="0.6" step="0.05" value="0.15"></label></div><label>Wall colour<input id="wall-colour" type="color" value="#f2efe8"></label><div id="wall-editor" hidden><h3>Selected wall</h3><div class="row"><label>Start X<input id="wall-ax" type="number" step="0.25"></label><label>Start Y<input id="wall-ay" type="number" step="0.25"></label></div><div class="row"><label>End X<input id="wall-bx" type="number" step="0.25"></label><label>End Y<input id="wall-by" type="number" step="0.25"></label></div><div id="wall-curve-fields" class="row" hidden><label>Bend X<input id="wall-cx" type="number" step="0.25"></label><label>Bend Y<input id="wall-cy" type="number" step="0.25"></label></div></div><p class="hint">Straight wall: tap start and end. Curved wall: tap start, end, then bend. Escape cancels drawing. Remove deletes the element you tap.</p></section>
@@ -63,9 +68,10 @@
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="app.js?v=3" defer></script>
-<script src="geometry.js?v=3" defer></script>
-<script src="designer.js?v=3" defer></script>
-<script src="pwa.js?v=3" defer></script>
+<script src="app.js?v=4" defer></script>
+<script src="geometry.js?v=4" defer></script>
+<script src="designer.js?v=4" defer></script>
+<script src="pwa.js?v=4" defer></script>
+<script src="interior.js?v=4" defer></script>
 </body>
 </html>

@@ -42,3 +42,11 @@ The layout is conceptual: overlapping room areas are counted separately, and doo
 - Plot changes may leave existing elements crossing the new boundary. A warning identifies this; move or resize them. 2D content and 3D room floors are clipped to the plot. Furniture whose centres fall outside the boundary is omitted from 3D.
 
 Walls and slab geometry are conceptual. Doors and windows remain decorative models rather than automatic holes in custom walls. The editor does not calculate structural loads or produce construction drawings.
+
+## Interior presentation
+- Open 3D view for textured furniture with rounded upholstered details and additional bedside tables, sideboards, ottomans, curtains and framed art.
+- Choose an interior room, then Walk inside. Drag to look; use W/A/S/D, arrow keys, or the on-screen buttons to move. The walkthrough stays on the selected floor and within the plot, but allows movement through walls and furniture.
+- Full screen expands the viewer. Download view exports a 1920 × 1080 PNG of the current camera and actual layout.
+- Warm natural, Modern calm and Earthy greens palettes update furniture and room floors on the selected floor and the building wall colour. Undo restores previous finishes.
+- The AI-generated living-room photograph is style inspiration, not a rendering of your plan. Interactive models are generic furniture illustrations, not branded product scans or a photorealistic rendering service.
+
