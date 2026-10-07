@@ -79,10 +79,10 @@ function startWalking(){
  if(!is3)tab(3);if(!renderer)return;
  viewFloors='active';$('floor-view').value='active';build();
  const r=rooms.find(r=>r.id===Number($('interior-room').value))||rooms.find(r=>r.t!=='garden');
- let p=r?{x:r.x+r.w/2,y:r.y+r.l/2}:{x:PL.w/2,y:PL.l/2};
+ let p=r?{x:r.x+Math.min(.6,r.w/4),y:r.y+r.l-Math.min(.6,r.l/4)}:{x:PL.w/2,y:PL.l/2};
  if(!PlotGeometry.contains(PlotGeometry.points(plotVertices),p))p=PlotGeometry.points(plotVertices)[0];
  cam.position.set(p.x,Math.min(1.6,floorHeight-.3),p.y);cam.fov=65;cam.updateProjectionMatrix();
- controls.enabled=false;walking=true;walkYaw=0;walkPitch=0;walkLast=0;
+ controls.enabled=false;walking=true;walkYaw=r?Math.atan2(r.x+r.w/2-p.x,p.y-(r.y+r.l/2)):0;walkPitch=-.16;walkLast=0;
  $('walk-toggle').textContent='Exit walkthrough';$('walk-controls').hidden=false;
  $('interior-help').textContent='Drag the view to look. Use W/A/S/D, arrow keys or movement buttons. This preview moves through walls; choose a room to jump there.';
  setWalkCamera();walkFrame=requestAnimationFrame(walkTick);
